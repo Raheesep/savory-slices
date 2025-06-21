@@ -1,7 +1,7 @@
 export default function AboutUs() {
   return (
     <section id="about" className="bg-[#f8f8f8] py-16 px-6 max-w-4xl mx-auto text-center">
-      <h2 className="text-4xl font-bold mb-4">About Us.</h2>
+      <h2 className="text-4xl font-bold mb-4 text-black">About Us.</h2>
       <p className="text-gray-600 text-base md:text-lg leading-relaxed">
         At <strong>Savory Slices</strong>, we're on a mission to bring back the charm of
         traditional Indian snacking. Our specialty? Authentic banana chips made in the heart of

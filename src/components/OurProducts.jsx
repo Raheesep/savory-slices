@@ -129,7 +129,7 @@ const handleSubmit = async (e) => {
       </div>
 
       {modalOpen && selectedProduct && (
-      <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 px-4">
+      <div className="text-black fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 px-4">
           <div className="bg-white p-6 rounded-lg max-w-md w-full relative">
           <button
             onClick={()=> setModalOpen(false)}
@@ -207,7 +207,7 @@ const handleSubmit = async (e) => {
       )}
 
      {modalQuotePlaced && (
-  <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+  <div className="fixed inset-0 text-black backdrop-blur-sm flex items-center justify-center z-50">
     <div className="bg-white p-6 rounded-lg w-full max-w-sm text-center shadow-xl animate-pop-in">
       
       <div className="text-6xl mb-4">✅</div>
