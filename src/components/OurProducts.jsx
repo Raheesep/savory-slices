@@ -97,8 +97,8 @@ const handleSubmit = async (e) => {
 };
  
   return (
-    <section id="products"  className="py-16 px-6 max-w-6xl mx-auto text-center">
-      <h2 className="text-4xl font-bold mb-10">Our Products.</h2>
+    <section id="products"  className="bg-[#f8f8f8] py-16 px-6 max-w-6xl mx-auto text-center">
+      <h2 className="text-4xl font-bold mb-10 text-black">Our Products.</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         {products.map((product) => (

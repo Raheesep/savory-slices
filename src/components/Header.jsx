@@ -27,7 +27,7 @@ export default function Header() {
           <a href="#footer" className="hover:text-[#d4001a]">Contact</a>
         </div>
         <div className="flex-grow flex flex-col justify-center items-start text-left pr-4">
-          <h1 className="text-3xl md:text-5xl font-bold leading-snug mb-4">
+          <h1 className="text-3xl md:text-5xl font-bold leading-snug mb-4 text-black">
             Let's Redefine<br />Snacking
           </h1>
           <p className="text-gray-700 max-w-xl leading-relaxed">
