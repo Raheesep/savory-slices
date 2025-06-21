@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import mintImage from '../assets/mint.jpeg';
 import normalImage from '../assets/normal.jpeg';
 import spicyImage from '../assets/spicy.jpeg';
 import sweetImage from '../assets/sweet.jpeg';
+import emailjs from "@emailjs/browser";
 
 const products = [
   {
@@ -37,32 +38,64 @@ const products = [
 
 export default function OurProducts() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalQuotePlaced, setModalQuotePlaced] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [sending, setSending] = useState(false);
+  const formData = useRef();
 
   const handleOpenModal = (product) => {
     setSelectedProduct(product);
     setModalOpen(true);
   };
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const serviceId = "service_uabxijr";
+  const templateId = "quote_request";
+  const publicKey = "Jt6uIPdI0cvIohGIS";
 
-    const body = `
-      Product: ${selectedProduct.name}
-      Price: ${selectedProduct.price}
-      Email: ${email}
-      Phone: ${phone || 'Not Provided'}
-    `;
+  try {
+    setSending(true);
 
-    window.location.href = `mailto:eeee@yopmail.com?subject=Request Quote - ${selectedProduct.name}&body=${encodeURIComponent(body)}`;
+    const form = formData.current;
+    const name = form.elements["buyer-name"].value;
+    const email = 'raheesep318@gmail.com';
+    const customerEmail = form.elements["customer-email"].value;
+    const phone = form.elements["customer-phone"].value;
+    const product = form.elements["product-name"]?.value;
+    const price = form.elements["product-price"]?.value;
+    const units = form.elements["product-qty"]?.value;
 
+    if (!name || !customerEmail || !phone) {
+      alert("Please fill in all required fields.");
+      setSending(false);
+      return;
+    }
+
+    await emailjs.send(
+      serviceId,
+      templateId,
+      {
+        buyer_name: name,
+        email,
+        customerEmail,
+        phone,
+        product_name: product,
+        price,
+        units
+      },
+      publicKey
+    );
     setModalOpen(false);
-    setEmail('');
-    setPhone('');
-  };
-
+    setModalQuotePlaced(true);
+  } catch (error) {
+    console.error("EmailJS error:", error);
+    alert("Something went wrong. Please try again.");
+  } finally {
+    setSending(false);
+  }
+};
+ 
   return (
     <section id="products"  className="py-16 px-6 max-w-6xl mx-auto text-center">
       <h2 className="text-4xl font-bold mb-10">Our Products.</h2>
@@ -90,22 +123,17 @@ export default function OurProducts() {
         ))}
       </div>
 
-      {/* Modal */}
       {modalOpen && selectedProduct && (
       <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 px-4">
           <div className="bg-white p-6 rounded-lg max-w-md w-full relative">
-            <button
-              onClick={() => setModalOpen(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl"
-            >
-              &times;
-            </button>
+
             <h3 className="text-xl font-bold mb-4">Request Quote</h3>
-            <form onSubmit={handleSubmit} className="space-y-4 text-left">
+            <form ref={formData} onSubmit={handleSubmit} className="space-y-4 text-left">
               <div>
                 <label className="block text-sm font-medium">Product Name</label>
                 <input
                   type="text"
+                  name='product-name'
                   value={selectedProduct.name}
                   disabled
                   className="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 mt-1"
@@ -115,38 +143,76 @@ export default function OurProducts() {
                 <label className="block text-sm font-medium">Price</label>
                 <input
                   type="text"
+                  name='product-price'
                   value={selectedProduct.price}
                   disabled
                   className="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 mt-1"
+                />
+              </div>
+               <div>
+                <label className="block text-sm font-medium">Product Qty </label>
+                <input
+                  type="number"
+                  name='product-qty'
+                  className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+                />
+              </div>
+               <div>
+                <label className="block text-sm font-medium">Name</label>
+                <input
+                  type="text"
+                  name='buyer-name'
+                  required
+                  className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium">Email</label>
                 <input
                   type="email"
+                  name='customer-email'
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium">Phone (optional)</label>
                 <input
-                  type="text"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  type="number"
+                  name='customer-phone'
                   className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
                 />
               </div>
-             <button className="w-full bg-black text-black py-2 rounded hover:bg-[#d4001a] transition-colors duration-200">
-                Request Quote
-                </button>
-
+              <button className="w-full bg-black text-black py-2 rounded hover:bg-[#d4001a] transition-colors duration-200" >
+                {sending ? 'Requesting' :'Request Quote'}
+             </button>
             </form>
           </div>
         </div>
       )}
+
+     {modalQuotePlaced && (
+  <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-lg w-full max-w-sm text-center shadow-xl animate-pop-in">
+      
+      <div className="text-6xl mb-4">✅</div>
+      
+      <h2 className="text-2xl font-bold mb-2 text-green-700">Thank You!</h2>
+      <p className="text-gray-700">
+        Your quote has been placed.<br />We’ll contact you shortly.
+      </p>
+
+      <button
+        onClick={() => setModalQuotePlaced(false)}
+        className="mt-6 px-4 py-2 bg-[#d4001a] text-black rounded hover:bg-red-700 transition"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
+
     </section>
   );
 }
