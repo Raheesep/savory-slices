@@ -31,8 +31,8 @@ export default function Footer() {
             <a href="mailto:info@savoryslices.com" className="hover:text-[#d4001a]">
             📧 info@savoryslices.com
             </a>
-            <a href="tel:+919876543210" className="hover:text-[#d4001a]">
-            📞 +91 98765 43210
+            <a href="tel:+1111111111" className="hover:text-[#d4001a]">
+            📞 +91 1111111111
             </a>
         </div>
         </div>
