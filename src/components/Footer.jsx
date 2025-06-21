@@ -24,7 +24,6 @@ export default function Footer() {
             <a href="#" className="hover:text-[#d4001a]">WhatsApp</a>
           </div>
         </div>
-        {/* Contact Section */}
         <div>
         <h4 className="text-lg font-semibold mb-3">Contact Us</h4>
         <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4 text-sm">
