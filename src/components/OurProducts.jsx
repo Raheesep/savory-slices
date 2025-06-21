@@ -114,11 +114,16 @@ const handleSubmit = async (e) => {
               <span className="font-medium">Price:</span> {product.price}
             </p>
             <button
-              onClick={() => handleOpenModal(product)}
-              className="w-full bg-black text-black py-2 rounded hover:bg-[#d4001a] transition"
-            >
+            onClick={() => handleOpenModal(product)}
+            className="
+              w-full py-2 rounded
+              bg-white text-black
+              shadow-md hover:bg-[#d4001a] hover:text-white
+              transition-colors duration-200
+            "
+               >
               Request Quote
-            </button>
+              </button>
           </div>
         ))}
       </div>
@@ -126,7 +131,12 @@ const handleSubmit = async (e) => {
       {modalOpen && selectedProduct && (
       <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 px-4">
           <div className="bg-white p-6 rounded-lg max-w-md w-full relative">
-
+          <button
+            onClick={()=> setModalOpen(false)}
+            className="absolute top-4 right-4 text-gray-600 hover:text-red-500 text-2xl font-bold focus:outline-none"
+          >
+            &times;
+          </button>
             <h3 className="text-xl font-bold mb-4">Request Quote</h3>
             <form ref={formData} onSubmit={handleSubmit} className="space-y-4 text-left">
               <div>
@@ -183,7 +193,12 @@ const handleSubmit = async (e) => {
                   className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
                 />
               </div>
-              <button className="w-full bg-black text-black py-2 rounded hover:bg-[#d4001a] transition-colors duration-200" >
+              <button className="
+              w-full py-2 rounded
+              bg-white text-black
+              shadow-md hover:bg-[#d4001a] hover:text-white
+              transition-colors duration-200
+            ">
                 {sending ? 'Requesting' :'Request Quote'}
              </button>
             </form>
